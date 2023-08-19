@@ -103,3 +103,30 @@
 
 <br>
   
+
+ # s3- versioning
+
+- To track the changes to the object you upload and roll back if needed 
+- If you update an existing file than a new version will be created
+
+- Only file you upload after versioning will have an versioning ID old file will null
+
+- If you delete a file that has versioning enable a delete marker will be placed,by deleting the delete marker you can restore the file
+
+# S3 - replication asynchronous 
+
+- To replicate the bucket objects you need to enable versioning
+
+- If there are objects already in the beginning before replication is enabled you can replicate it by selecting the batch operations
+
+- there are two types of replication
+ - CRR cross region replication 
+ - SRR same region replication
+
+- An IAM role with correct permission should be created to enable replication
+
+- Helpful for prod and test environments
+
+# S3 - Features
+
+- Highly available 99.99 only 57min of 
