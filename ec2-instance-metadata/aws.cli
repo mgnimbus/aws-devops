@@ -1,0 +1,2 @@
+aws ec2 run-instances --image-id ami-xxxx --instance-type t2.micro 
+aws ec2 terminate-instances --instance-ids i-xxxx  

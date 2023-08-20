@@ -15,7 +15,9 @@ data "aws_subnet" "subnet1" {
   id = "subnet-0951560b18ee56a76"
 }
 
-
+locals {
+  azes = [data.aws_subnet.subnet.availability_zone, data.aws_subnet.subnet1.availability_zone]
+}
 
 resource "aws_security_group" "alb" {
   name        = "${random_pet.randy.id}_alb_security_group"
@@ -82,10 +84,12 @@ resource "aws_lb_listener" "front_end" {
   }
 }
 
-locals {
-  azes = [data.aws_subnet.subnet.availability_zone, data.aws_subnet.subnet1.availability_zone]
+resource "aws_lb_target_group_attachment" "node" {
+  count            = 2
+  target_group_arn = aws_lb_target_group.test.arn
+  target_id        = aws_instance.alb[count.index].id
+  port             = "80"
 }
-
 
 resource "aws_instance" "alb" {
   count                  = 2
@@ -111,7 +115,8 @@ resource "aws_security_group" "server" {
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [aws_security_group.alb.id] # To only allow traffic form alb 
+    # cidr_blocks = ["0.0.0.0/0"] # To only allow traffic from internet
   }
 
   # Allow all outbound traffic.
@@ -127,9 +132,3 @@ resource "aws_security_group" "server" {
   }
 }
 
-resource "aws_lb_target_group_attachment" "node" {
-  count            = 2
-  target_group_arn = aws_lb_target_group.test.arn
-  target_id        = aws_instance.alb[count.index].id
-  port             = "80"
-}

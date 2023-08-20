@@ -1,0 +1,1 @@
+{'requestContext': {'elb': {'targetGroupArn': 'arn:aws:elasticloadbalancing:us-east-1:328268088738:targetgroup/alb-lambda-mule/bcc69a614ccfa457'}}, 'httpMethod': 'GET', 'path': '/', 'queryStringParameters': {}, 'headers': {'user-agent': 'ELB-HealthChecker/2.0'}, 'body': '', 'isBase64Encoded': False}
